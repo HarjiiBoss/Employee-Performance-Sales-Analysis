@@ -1,3 +1,7 @@
+-- PURPOSE:
+-- 
+-- 
+
 -- =====================================================
 -- QUESTION 3: Which employee has processed orders for the most unique customers?
 -- =====================================================
