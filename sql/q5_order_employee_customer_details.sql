@@ -2,6 +2,20 @@
 -- QUESTION 5: Show all orders with employee full name, customer name, and order date.
 -- =====================================================
 
+SELECT 
+	Customers.CustomerName AS 'Customer Name', 
+	CONCAT(Employees.FirstName,' ', Employees.LastName) AS 'Employee Name', 
+	Orders.OrderID, 
+	Orders.OrderDate
+FROM 
+	((Orders
+INNER JOIN 
+	Customers ON Customers.CustomerID = Orders.CustomerID)
+INNER JOIN 
+	Employees ON Employees.EmployeeID = Orders.EmployeeID)
+ORDER by 
+	Customers.CustomerName ASC;
+
 /* 
 INSIGHT:
 The query returns 196 orders across roughly seven months (July 1996 to February 1997). Nearly half the customers placed more than one order, 
