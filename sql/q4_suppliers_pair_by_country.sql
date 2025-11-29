@@ -1,3 +1,7 @@
+-- PURPOSE:
+-- 
+-- 
+
 -- =====================================================
 -- QUESTION 4: Which pairs of suppliers are located in the same Country?
 -- =====================================================
