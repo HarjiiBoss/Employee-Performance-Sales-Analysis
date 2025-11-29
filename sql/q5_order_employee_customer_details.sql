@@ -1,3 +1,7 @@
+-- PURPOSE:
+-- 
+-- 
+
 -- =====================================================
 -- QUESTION 5: Show all orders with employee full name, customer name, and order date.
 -- =====================================================
