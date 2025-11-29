@@ -1,3 +1,7 @@
+-- PURPOSE:
+-- 
+-- 
+
 -- =====================================================
 -- QUESTION 2: Are there any employees who have never processed an order?
 -- =====================================================
