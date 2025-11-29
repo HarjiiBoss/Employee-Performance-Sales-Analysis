@@ -1,3 +1,7 @@
+-- PURPOSE:
+-- 
+-- 
+
 -- =====================================================
 -- QUESTION 1: Which employees have processed orders, and how many orders has each employee handled?
 -- =====================================================
