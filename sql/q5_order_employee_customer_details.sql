@@ -1,6 +1,6 @@
 -- PURPOSE:
--- 
--- 
+-- To generate a detailed view of each order, linking customers to employees and order dates.
+-- This provides a complete operational overview useful for reporting, performance tracking, and auditing.
 
 -- =====================================================
 -- QUESTION 5: Show all orders with employee full name, customer name, and order date.
