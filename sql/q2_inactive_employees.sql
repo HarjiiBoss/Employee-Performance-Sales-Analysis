@@ -1,6 +1,6 @@
 -- PURPOSE:
--- 
--- 
+-- To identify employees who have never processed an order.
+-- This helps detect inactive, retired, or non-operational staff records that could distort performance analysis.
 
 -- =====================================================
 -- QUESTION 2: Are there any employees who have never processed an order?
