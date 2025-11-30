@@ -1,6 +1,6 @@
 -- PURPOSE:
--- 
--- 
+-- To identify suppliers that are co-located in the same country.
+-- This helps assess geographic clustering and supply chain concentration risks.
 
 -- =====================================================
 -- QUESTION 4: Which pairs of suppliers are located in the same Country?
