@@ -1,6 +1,6 @@
 -- PURPOSE:
--- 
--- 
+-- To measure employee workload by counting how many orders each employee has processed.
+-- This helps identify top performers, underutilized staff, and possible workload imbalances.
 
 -- =====================================================
 -- QUESTION 1: Which employees have processed orders, and how many orders has each employee handled?
