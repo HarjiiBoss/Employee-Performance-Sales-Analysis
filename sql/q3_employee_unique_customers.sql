@@ -1,6 +1,6 @@
 -- PURPOSE:
--- 
--- 
+-- To determine which employees handle the widest range of customers by counting unique customers served.
+-- This helps evaluate customer exposure, relationship management, and employee impact on customer retention.
 
 -- =====================================================
 -- QUESTION 3: Which employee has processed orders for the most unique customers?
