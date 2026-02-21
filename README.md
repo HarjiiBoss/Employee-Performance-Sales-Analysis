@@ -1,47 +1,104 @@
-![SQL](https://img.shields.io/badge/SQL-MySQL-blue)
-![Status](https://img.shields.io/badge/Status-Complete-success)
+# Northwind Database — Employee Performance & Sales Analysis
 
-# Northwind Database - Employee Performance and Sales Analysis
+## Executive Summary
 
-## 📊 Project Overview
-This project analyzes employee performance, workload distribution, and reporting structure using the Northwind database available on W3Schools. 
-Through SQL analysis of 196 orders across 7.3 months, I identify performance disparities, customer retention patterns, 
-and supply chain concentration risks to provide actionable recommendations for sales operations optimization.
+This project evaluates employee workload distribution, customer relationship coverage, and supplier geographic concentration within the Northwind wholesale distribution environment.
 
-**Project:** Northwind Database - Employee Performance and Sales Analysis  
-**Author:** Taofeek Salami  
-**Date:** November 2025  
-**Database:** Northwind (W3Schools)
+The objective was to identify:
+- Workload imbalance creating operational and retention risk
+- Inactive employee records distorting performance metrics
+- Link between order volume and customer retention
+- Supply chain concentration risk from geographic clustering
 
----
-
-## 🎯 Business Objectives
-- Analyze employee workload based on number of orders handled  
-- Identify top-performing employees based on sales involvement  
-- Detect imbalance in work distribution among staff  
-- Provide insight for staffing and training decisions  
+Using structured SQL analysis, the project surfaces operational inefficiencies and strategic vulnerabilities rather than raw performance numbers.
 
 ---
 
-## 🛠️ Technologies Used
-- SQL (MySQL syntax)  
-- Northwind Database (W3Schools)  
-- TablePlus  
-- GitHub for version control and documentation  
+## Business Context
+
+The Northwind dataset simulates a wholesale distribution company where employees manage customer orders and supplier relationships across multiple regions.
+
+For a business operating in this environment, understanding how workload is distributed, which employees drive customer retention, and where supply chain dependencies are concentrated is critical for sustainable operations.
+
+This analysis evaluates performance imbalance, data quality issues affecting reporting accuracy, and geographic risks that could disrupt supply continuity.
 
 ---
 
-## 🛠️ SQL Skills Demonstrated
-- JOIN operations 
-- GROUP BY and aggregate functions (COUNT, SUM)  
-- Subqueries for deeper analysis  
-- ORDER BY and ranking  
-- Handling text-based fields  
-- Filtering for performance insights  
+## Business Questions
+
+1. Is order processing workload distributed evenly across the team?
+2. Are there employee records distorting performance metrics?
+3. Which employees drive the strongest customer retention?
+4. Does supplier geography create concentration risk?
+5. What does consolidated order data reveal about employee and customer dependency?
 
 ---
 
-## 📁 Project Structure
+## Analysis Approach
+
+The analysis was conducted using structured SQL queries across employee, order, customer, and supplier tables.
+
+Each business question was translated into:
+- Aggregation analysis to measure workload and customer coverage per employee
+- Left Join filtering to surface inactive records with no associated transactions
+- Multi-table Join operations to link employees, customers, and orders relationally
+- Self-join logic to identify supplier pairs sharing the same geography
+- Filtering and casting to handle data quality inconsistencies
+
+Query outputs were interpreted to derive operational meaning beyond headcount and order counts.
+
+---
+
+## Key Findings
+
+- Margaret Peacock processed 40 orders — approximately 20% of total volume — while Anne Dodsworth handled only 6. The top three employees processed 102 of 196 total orders, indicating heavy workload concentration.
+- One employee, Adam West (EmployeeID 10), has no recorded orders. His employee notes and age profile suggest an inactive or non-operational role, making his inclusion in performance reporting misleading.
+- Employees with higher order volumes also served significantly more unique customers. Margaret covered 31 of 74 customers, while Anne served 6 with no repeat orders — suggesting retention performance tracks closely with workload and experience.
+- 17 of 29 supplier pairs are co-located within the same country. The USA accounts for 6 pairs (35.3%) and Europe accounts for 8 pairs (47.1%), meaning over 82% of co-located supplier relationships sit within two regions.
+
+---
+
+## Business Implications
+
+- A 6.7x workload gap between the highest and lowest performing employees indicates task distribution is not systematic — this creates burnout risk for top performers and underutilisation of lower-volume staff.
+- Adam West's unfiltered inclusion in team-wide KPIs inflates headcount and distorts average performance metrics, making the team appear less efficient than it is.
+- The correlation between order volume and customer retention suggests retention is driven by individual employee relationships, not company-wide process — making the business vulnerable if high performers leave.
+- With 82% of co-located supplier relationships concentrated in the USA and Europe, any regional disruption — trade policy changes, logistics delays, or political instability — could affect the majority of the supplier base simultaneously.
+
+---
+
+## Recommendations
+
+1. Review the order assignment process to determine whether workload imbalance is structural or incidental before redistributing tasks.
+2. Confirm Adam West's employment status with HR and archive or update his record to prevent it from affecting operational reporting.
+3. Document the customer relationship behaviours of top performers and use them as the foundation for team-wide training and onboarding standards.
+4. Target 20–25% of future supplier relationships from Asia-Pacific markets within 18 months to reduce regional concentration risk.
+5. Integrate the consolidated order query into routine monthly reporting for Sales and Customer Success to track retention trends and flag workload imbalance early.
+
+---
+
+## Technical Appendix
+
+### 🛠️ Technologies Used
+- SQL (MySQL syntax)
+- Northwind Database (W3Schools)
+- TablePlus
+- GitHub for version control and documentation
+
+---
+
+### 🛠️ SQL Skills Demonstrated
+- INNER JOIN across multiple tables
+- LEFT JOIN for inactive record detection
+- Self-join for geographic pair matching
+- COUNT with DISTINCT for unique customer coverage
+- CONCAT for full name construction
+- GROUP BY and ORDER BY
+- Handling data quality inconsistencies
+
+---
+
+### 📁 Project Structure
 ```
 Employee-Performance-Sales-Analysis/
 │
@@ -52,87 +109,39 @@ Employee-Performance-Sales-Analysis/
 │   ├── q2_inactive_employees.sql
 │   ├── q3_employee_unique_customers.sql
 │   ├── q4_suppliers_pair_by_country.sql
-│   ├── q5_order_employee_customer_details.sql
-│   └── ...
+│   └── q5_order_employee_customer_details.sql
 │
 ├── results/
-│   ├── query1_employee_orders_count.pdf
+│   ├── query1_employee_orders.pdf
 │   ├── query2_inactive_employees.pdf
-│   ├── query3_employee_unique_customers.pdf
-│   ├── query4_suppliers_pair_by_country.pdf
-│   ├── query5_order_employee_customer_details.pdf
-│   └── ...
+│   ├── query3_unique_customers.pdf
+│   ├── query4_supplier_pairs.pdf
+│   └── query5_order_details.pdf
 │
 └── docs/
     └── summary.md
 ```
 
----
-
-## 📄 Query Output Files
-All exported query results in PDF or CSV format are stored inside the `/results` directory.
+### 📄 Query Output Files
+All exported query results are available in the /results directory.
 
 ---
 
-## 🔍 Key Analysis Questions (High-Level Summary)
-
-### 1. Which employees handled the most orders?
-A small group of employees consistently handled the majority of orders.
-
-### 2. Is the workload evenly distributed across staff?
-There is a clear imbalance, with some employees carrying significantly more workload than others.
-
-### 3. Which employees are linked to the most customers?
-Some employees serve a higher number of unique customers, indicating higher engagement.
-
-### 4. Are there underutilized employees?
-A number of employees appear to be less engaged in workload compared to their peers.
+### 📝 Data Quality Notes
+Text fields contain trailing whitespace in some records.
+Queries account for this intentionally where filters are applied.
+Employee records are not filtered by active status — Adam West (EmployeeID 10) appears in the full employee table despite having no order history.
 
 ---
 
-## 💡 Key Insights (Summary)
-- Workload is not evenly distributed among employees  
-- A few high performers account for most sales activity  
-- Some employees may be overworked  
-- Others may benefit from additional responsibilities or training  
+## Contact
+
+Taofeek Salami
+LinkedIn: https://www.linkedin.com/in/taofeek-salami-460a93245/
+GitHub: https://github.com/HarjiiBoss
+Email: salamitaofeek92@gmail.com
 
 ---
 
-## 🎯 Business Recommendations (Summary)
-1. Redistribute workload more evenly among staff  
-2. Reward and retain top-performing employees  
-3. Provide additional training to underutilized staff  
-4. Review team structure to improve efficiency  
-5. Use insights to plan future hiring decisions  
-
----
-
-## 📝 Data Quality Notes
-Some text fields contain trailing whitespace, for example `'Germany '` instead of `'Germany'`.  
-Queries intentionally account for this issue:
-
-```sql
-WHERE Country = 'Germany '
-```
-
-Some ID fields are stored as text strings. Sorting and calculations were handled carefully in queries.
-
----
-
-## 👨‍💻 Author
-**Taofeek Salami**  
-Data Analyst | SQL Enthusiast  
-November 2025  
-
-- LinkedIn: https://www.linkedin.com/in/taofeek-salami-460a93245/  
-- GitHub: https://github.com/HarjiiBoss  
-- Email: salamitaofeek92@gmail.com  
-
----
-
-## 📄 License
-This project is open source and available for educational and portfolio purposes.
-
----
-
-*This analysis uses the W3Schools Northwind sample database strictly for learning and demonstration.*
+## License
+This project is licensed under the MIT License.
