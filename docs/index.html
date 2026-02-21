@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Northwind — Employee Performance & Sales Analysis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --surface: #13161e;
+      --surface2: #1a1e28;
+      --border: #252a38;
+      --accent: #c8a96e;
+      --accent2: #7eb8c9;
+      --text: #e8e4dc;
+      --muted: #7a7f8e;
+      --green: #6dbf8a;
+      --red: #e07b6a;
+      --purple: #b48ecf;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── HERO ── */
+    header {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 8vw 4rem;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(180,142,207,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border-radius: 2px;
+      border: 1px solid;
+    }
+
+    .badge-sql    { color: var(--accent);  border-color: rgba(200,169,110,0.3); background: rgba(200,169,110,0.07); }
+    .badge-mysql  { color: var(--accent2); border-color: rgba(126,184,201,0.3); background: rgba(126,184,201,0.07); }
+    .badge-join   { color: var(--purple);  border-color: rgba(180,142,207,0.3); background: rgba(180,142,207,0.07); }
+    .badge-complete { color: var(--green); border-color: rgba(109,191,138,0.3); background: rgba(109,191,138,0.07); }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 5.5vw, 5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .hero-desc {
+      max-width: 580px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 3rem;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+    .meta-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .meta-value { font-size: 1rem; color: var(--text); }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 8vw;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      animation: fadeUp 0.6s 0.5s ease both;
+    }
+
+    .scroll-hint::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--muted);
+    }
+
+    /* ── LAYOUT ── */
+    main { position: relative; z-index: 1; }
+
+    section {
+      padding: 5rem 8vw;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 700;
+      margin-bottom: 3rem;
+      line-height: 1.2;
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-bottom: 4rem;
+      gap: 0;
+    }
+
+    .stat {
+      background: var(--surface);
+      padding: 2rem;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+
+    .stat:last-child { border-right: none; }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── FINDINGS GRID ── */
+    .findings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .finding-card {
+      background: var(--surface);
+      padding: 2rem;
+      transition: background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .finding-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--accent);
+      transition: height 0.3s ease;
+    }
+
+    .finding-card:hover { background: var(--surface2); }
+    .finding-card:hover::before { height: 100%; }
+
+    .finding-number {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .finding-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+
+    .finding-section { margin-bottom: 1rem; }
+    .finding-section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+    .finding-text { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+    .finding-text strong { color: var(--text); font-weight: 500; }
+
+    /* ── SQL SECTION ── */
+    .sql-grid { display: grid; gap: 2rem; }
+
+    .sql-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .sql-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .sql-header-left { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .sql-filename { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--accent2); }
+    .sql-purpose { font-size: 0.85rem; color: var(--muted); }
+    .sql-toggle { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.05em; transition: color 0.2s; flex-shrink: 0; }
+    .sql-header:hover .sql-toggle { color: var(--accent); }
+
+    .sql-body { display: none; }
+    .sql-body.open { display: block; }
+
+    pre {
+      padding: 1.5rem;
+      overflow-x: auto;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: #abb2bf;
+    }
+
+    .kw  { color: #c678dd; }
+    .fn  { color: #61afef; }
+    .cm  { color: #5c6370; font-style: italic; }
+    .str { color: #98c379; }
+    .num { color: #d19a66; }
+    .op  { color: #56b6c2; }
+
+    /* ── DATA QUALITY ── */
+    .dq-list { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; max-width: 600px; }
+    .dq-list li { display: flex; align-items: flex-start; gap: 1rem; font-size: 0.9rem; color: var(--muted); }
+    .dq-list li::before {
+      content: '!';
+      flex-shrink: 0;
+      width: 20px; height: 20px;
+      background: rgba(224,123,106,0.15);
+      color: var(--red);
+      border: 1px solid rgba(224,123,106,0.3);
+      border-radius: 2px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 2px;
+    }
+
+    code {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      background: var(--surface2);
+      padding: 0.1em 0.4em;
+      border-radius: 2px;
+      color: var(--accent2);
+    }
+
+    /* ── CONCLUSION ── */
+    .conclusion-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 2.5rem;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 800px;
+    }
+
+    .conclusion-box strong { color: var(--text); font-weight: 500; }
+
+    .themes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .theme-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--accent);
+      padding: 1.5rem;
+    }
+
+    .theme-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--accent);
+      opacity: 0.3;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .theme-text { font-size: 0.9rem; color: var(--muted); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 8vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-name { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--accent); }
+    .footer-note { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<header>
+  <div class="badge-row">
+    <span class="badge badge-sql">SQL</span>
+    <span class="badge badge-mysql">MySQL</span>
+    <span class="badge badge-join">JOINs</span>
+    <span class="badge badge-complete">Complete</span>
+  </div>
+  <h1>Employee Performance<br/><span>&amp; Sales</span><br/>Analysis</h1>
+  <p class="hero-desc">A structured SQL analysis of employee workload distribution, customer relationship breadth, and supplier geographic concentration risk using the Northwind database.</p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="meta-label">Queries</span>
+      <span class="meta-value">5</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Database</span>
+      <span class="meta-value">Northwind</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Tool</span>
+      <span class="meta-value">MySQL</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Technique</span>
+      <span class="meta-value">INNER JOIN · LEFT JOIN</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Author</span>
+      <span class="meta-value">HarjiiBoss</span>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll to explore</div>
+</header>
+
+<main>
+
+  <!-- ═══ STATS ═══ -->
+  <section>
+    <div class="section-label">At a glance</div>
+    <div class="stats-bar reveal">
+      <div class="stat"><div class="stat-number">196</div><div class="stat-label">Total orders processed</div></div>
+      <div class="stat"><div class="stat-number">40</div><div class="stat-label">Orders by top employee</div></div>
+      <div class="stat"><div class="stat-number">1</div><div class="stat-label">Inactive employee found</div></div>
+      <div class="stat"><div class="stat-number">17</div><div class="stat-label">Co-located supplier pairs</div></div>
+      <div class="stat"><div class="stat-number">82%</div><div class="stat-label">Suppliers in US & Europe</div></div>
+    </div>
+  </section>
+
+  <!-- ═══ FINDINGS ═══ -->
+  <section>
+    <div class="section-label">Key Findings</div>
+    <h2>What the data reveals</h2>
+
+    <div class="findings-grid reveal">
+
+      <div class="finding-card">
+        <div class="finding-number">Q1 — WORKLOAD</div>
+        <div class="finding-title">Employee Order Processing Volume</div>
+        <div class="finding-section">
+          <div class="finding-section-label">Finding</div>
+          <div class="finding-text"><strong>Margaret Peacock processed 40 orders</strong> (~20% of total). Anne Dodsworth handled only 6. The top 3 employees processed 102 of 196 total orders.</div>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Insight</div>
+          <div class="finding-text">Margaret's workload is <strong>6.7× higher</strong> than Anne's, suggesting uneven task assignment rather than normal performance differences.</div>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Recommendation</div>
+          <div class="finding-text">Confirm whether low-volume employees are new hires or part-time. Introduce rotation policies and mentorship pairing with high performers.</div>
+        </div>
+      </div>
+
+      <div class="finding-card">
+        <div class="finding-number">Q2 — DATA QUALITY</div>
+        <div class="finding-title">Inactive Employee Detection</div>
+        <div class="finding-section">
+          <div class="finding-section-label">Finding</div>
+          <div class="finding-text"><strong>Adam West (EmployeeID 10)</strong> has zero recorded orders. His notes read "an old chum" and his age is significantly higher than the rest of the team.</div>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Insight</div>
+          <div class="finding-text">Adam likely holds a non-operational or retired role. His inclusion distorts team performance metrics and KPIs.</div>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Recommendation</div>
+          <div class="finding-text">Confirm status with HR. If inactive, archive his record. If advisory, document the role clearly to prevent future misclassification.</div>
+        </div>
+      </div>
+
+      <div class="finding-card">
+        <div class="finding-number">Q3 — RETENTION</div>
+        <div class="finding-title">Customer Relationship Breadth</div>
+        <div class="finding-section">
+          <div class="finding-section-label">Finding</div>
+          <div class="finding-text"><strong>Margaret served 31 unique customers</strong> (~42% of 74 total) with 9 repeat orders. Anne served 6 customers with zero repeat orders.</div>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Insight</div>
+          <div class="finding-text">Higher order volume correlates with stronger customer retention — likely driven by experience, trust, and customer communication skills.</div>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Recommendation</div>
+          <div class="finding-text">Use top performers as internal benchmarks. Introduce shadowing and mentoring programs. Formalise high-performer behaviours into training guidelines.</div>
+        </div>
+      </div>
+
+      <div class="finding-card">
+        <div class="finding-number">Q4 — RISK</div>
+        <div class="finding-title">Supplier Geographic Concentration</div>
+        <div class="finding-section">
+          <div class="finding-section-label">Finding</div>
+          <div class="finding-text"><strong>17 supplier pairs are co-located</strong>. USA accounts for 6 pairs (35.3%), Europe for 8 pairs (47.1%). Asia and Australia combined represent only 2 pairs.</div>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Insight</div>
+          <div class="finding-text">Over 82% of co-located supplier relationships sit in the US and Europe, creating elevated exposure to trade disruptions and regional instability.</div>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Recommendation</div>
+          <div class="finding-text">Pursue geographic diversification. Target 20–25% of supplier relationships from Asia-Pacific within 18 months. Identify backup suppliers for critical categories.</div>
+        </div>
+      </div>
+
+      <div class="finding-card">
+        <div class="finding-number">Q5 — OPERATIONS</div>
+        <div class="finding-title">Operational Order Monitoring</div>
+        <div class="finding-section">
+          <div class="finding-section-label">Finding</div>
+          <div class="finding-text"><strong>196 orders across 7 months</strong> (July 1996 – Feb 1997). Ernst Handel recorded the highest customer order count at 9. Nearly half of customers placed multiple orders.</div>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Insight</div>
+          <div class="finding-text">Confirms patterns of customer loyalty and over-dependency on a small group of high-performing employees for order volume.</div>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Recommendation</div>
+          <div class="finding-text">Integrate into routine monthly reporting for Sales and Customer Success teams to track retention, flag declining accounts, and support workload balancing.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ SQL QUERIES ═══ -->
+  <section>
+    <div class="section-label">SQL Queries</div>
+    <h2>The code behind the analysis</h2>
+    <div class="sql-grid reveal">
+
+      <div class="sql-card">
+        <div class="sql-header" onclick="toggleSQL(this)">
+          <div class="sql-header-left">
+            <span class="sql-filename">q1_employee_orders_count.sql</span>
+            <span class="sql-purpose">Order volume per employee</span>
+          </div>
+          <span class="sql-toggle">▶ expand</span>
+        </div>
+        <div class="sql-body">
+          <pre><span class="cm">-- Which employees have processed orders, and how many?</span>
+<span class="kw">SELECT</span>
+  Employees.EmployeeID,
+  <span class="fn">CONCAT</span>(Employees.FirstName, <span class="str">' '</span>, Employees.LastName) <span class="kw">AS</span> <span class="str">'Employee Name'</span>,
+  <span class="fn">COUNT</span>(Orders.OrderID) <span class="kw">AS</span> <span class="str">'Number of Orders'</span>
+<span class="kw">FROM</span> Employees
+<span class="kw">INNER JOIN</span> Orders <span class="kw">ON</span> Employees.EmployeeID <span class="op">=</span> Orders.EmployeeID
+<span class="kw">GROUP BY</span> Employees.EmployeeID, Employees.FirstName, Employees.LastName
+<span class="kw">ORDER BY</span> <span class="fn">COUNT</span>(Orders.OrderID) <span class="kw">DESC</span>;</pre>
+        </div>
+      </div>
+
+      <div class="sql-card">
+        <div class="sql-header" onclick="toggleSQL(this)">
+          <div class="sql-header-left">
+            <span class="sql-filename">q2_inactive_employees.sql</span>
+            <span class="sql-purpose">Employees with no recorded orders</span>
+          </div>
+          <span class="sql-toggle">▶ expand</span>
+        </div>
+        <div class="sql-body">
+          <pre><span class="cm">-- Are there employees who have never processed an order?</span>
+<span class="kw">SELECT</span>
+  Employees.EmployeeID,
+  <span class="fn">CONCAT</span>(Employees.FirstName, <span class="str">' '</span>, Employees.LastName) <span class="kw">AS</span> <span class="str">'Employee Name'</span>
+<span class="kw">FROM</span> Employees
+<span class="kw">LEFT JOIN</span> Orders <span class="kw">ON</span> Employees.EmployeeID <span class="op">=</span> Orders.EmployeeID
+<span class="kw">WHERE</span> Orders.OrderID <span class="kw">IS NULL</span>
+<span class="kw">ORDER BY</span> Employees.EmployeeID;</pre>
+        </div>
+      </div>
+
+      <div class="sql-card">
+        <div class="sql-header" onclick="toggleSQL(this)">
+          <div class="sql-header-left">
+            <span class="sql-filename">q3_employee_unique_customers.sql</span>
+            <span class="sql-purpose">Unique customers served per employee</span>
+          </div>
+          <span class="sql-toggle">▶ expand</span>
+        </div>
+        <div class="sql-body">
+          <pre><span class="cm">-- Which employee served the most unique customers?</span>
+<span class="kw">SELECT</span>
+  Employees.EmployeeID,
+  <span class="fn">CONCAT</span>(Employees.FirstName, <span class="str">' '</span>, Employees.LastName) <span class="kw">AS</span> <span class="str">'Employee Name'</span>,
+  <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> Customers.CustomerID) <span class="kw">AS</span> <span class="str">'Unique Customers'</span>
+<span class="kw">FROM</span> ((Orders
+  <span class="kw">INNER JOIN</span> Employees <span class="kw">ON</span> Employees.EmployeeID <span class="op">=</span> Orders.EmployeeID)
+  <span class="kw">INNER JOIN</span> Customers <span class="kw">ON</span> Customers.CustomerID <span class="op">=</span> Orders.CustomerID)
+<span class="kw">GROUP BY</span> Employees.EmployeeID, Employees.FirstName, Employees.LastName
+<span class="kw">ORDER BY</span> <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> Customers.CustomerID) <span class="kw">DESC</span>;</pre>
+        </div>
+      </div>
+
+      <div class="sql-card">
+        <div class="sql-header" onclick="toggleSQL(this)">
+          <div class="sql-header-left">
+            <span class="sql-filename">q4_suppliers_pair_by_country.sql</span>
+            <span class="sql-purpose">Co-located supplier pairs by country</span>
+          </div>
+          <span class="sql-toggle">▶ expand</span>
+        </div>
+        <div class="sql-body">
+          <pre><span class="cm">-- Which pairs of suppliers are located in the same country?</span>
+<span class="kw">SELECT</span>
+  A.SupplierName <span class="kw">AS</span> <span class="str">'Supplier 1'</span>,
+  B.SupplierName <span class="kw">AS</span> <span class="str">'Supplier 2'</span>,
+  A.Country
+<span class="kw">FROM</span> Suppliers A, Suppliers B
+<span class="kw">WHERE</span> A.Country <span class="op">=</span> B.Country
+<span class="kw">AND</span> A.SupplierID <span class="op">&lt;</span> B.SupplierID
+<span class="kw">ORDER BY</span> A.Country;</pre>
+        </div>
+      </div>
+
+      <div class="sql-card">
+        <div class="sql-header" onclick="toggleSQL(this)">
+          <div class="sql-header-left">
+            <span class="sql-filename">q5_order_employee_customer_details.sql</span>
+            <span class="sql-purpose">Full order view with employee and customer details</span>
+          </div>
+          <span class="sql-toggle">▶ expand</span>
+        </div>
+        <div class="sql-body">
+          <pre><span class="cm">-- Show all orders with employee name, customer name, and order date.</span>
+<span class="kw">SELECT</span>
+  Customers.CustomerName <span class="kw">AS</span> <span class="str">'Customer Name'</span>,
+  <span class="fn">CONCAT</span>(Employees.FirstName, <span class="str">' '</span>, Employees.LastName) <span class="kw">AS</span> <span class="str">'Employee Name'</span>,
+  Orders.OrderID,
+  Orders.OrderDate
+<span class="kw">FROM</span> ((Orders
+  <span class="kw">INNER JOIN</span> Customers <span class="kw">ON</span> Customers.CustomerID <span class="op">=</span> Orders.CustomerID)
+  <span class="kw">INNER JOIN</span> Employees <span class="kw">ON</span> Employees.EmployeeID <span class="op">=</span> Orders.EmployeeID)
+<span class="kw">ORDER BY</span> Customers.CustomerName <span class="kw">ASC</span>;</pre>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ DATA QUALITY ═══ -->
+  <section>
+    <div class="section-label">Data Quality Notes</div>
+    <h2>Known issues & handling</h2>
+    <ul class="dq-list reveal">
+      <li>Text fields contain trailing spaces (e.g. <code>"Germany "</code>). Queries intentionally account for this whitespace in filters.</li>
+      <li>Certain ID fields are stored as text and may require <code>CAST(... AS UNSIGNED)</code> for correct numeric sorting.</li>
+      <li><code>EmployeeID 10</code> (Adam West) has no order records. His inclusion in unfiltered queries distorts team-wide performance metrics.</li>
+    </ul>
+  </section>
+
+  <!-- ═══ CONCLUSION ═══ -->
+  <section>
+    <div class="section-label">Conclusion</div>
+    <h2>Three key themes</h2>
+    <div class="themes-grid reveal">
+      <div class="theme-card">
+        <div class="theme-number">01</div>
+        <div class="finding-section-label" style="margin-bottom:0.5rem;">Workload Imbalance</div>
+        <div class="theme-text">A small group of employees processes the majority of orders. Redistribution and mentorship are needed to reduce burnout risk and unlock underutilised capacity.</div>
+      </div>
+      <div class="theme-card">
+        <div class="theme-number">02</div>
+        <div class="finding-section-label" style="margin-bottom:0.5rem;">Performance & Retention Link</div>
+        <div class="theme-text">Higher order volume strongly correlates with broader customer coverage and repeat orders. Top performer behaviours should be formalised into training and onboarding.</div>
+      </div>
+      <div class="theme-card">
+        <div class="theme-number">03</div>
+        <div class="finding-section-label" style="margin-bottom:0.5rem;">Supply Chain Concentration Risk</div>
+        <div class="theme-text">Over 82% of co-located supplier pairs sit in the US and Europe. Geographic diversification toward Asia-Pacific is critical for long-term supply chain resilience.</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="footer-name">HarjiiBoss</span>
+  <span class="footer-note">Northwind DB — Employee Performance & Sales Analysis · MySQL · 2025</span>
+</footer>
+
+<script>
+  function toggleSQL(header) {
+    const body = header.nextElementSibling;
+    const toggle = header.querySelector('.sql-toggle');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open');
+    toggle.textContent = isOpen ? '▶ expand' : '▼ collapse';
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
