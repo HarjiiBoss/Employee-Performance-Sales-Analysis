@@ -136,9 +136,9 @@ Employee records are not filtered by active status — Adam West (EmployeeID 10)
 
 ## Contact
 
-Taofeek Salami
-LinkedIn: https://www.linkedin.com/in/taofeek-salami-460a93245/
-GitHub: https://github.com/HarjiiBoss
+Taofeek Salami  
+LinkedIn: https://www.linkedin.com/in/taofeek-salami-460a93245/  
+GitHub: https://github.com/HarjiiBoss  
 Email: salamitaofeek92@gmail.com
 
 ---
