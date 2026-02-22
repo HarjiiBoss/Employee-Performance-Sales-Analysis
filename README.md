@@ -9,6 +9,7 @@ Using structured SQL analysis, the project surfaces operational inefficiencies a
 ---
 
 ## Performance Snapshot
+
 - Top 3 employees handle 52% of total orders
 - 6.7x workload gap between highest and lowest active employees
 - 42% of customers managed by a single employee
