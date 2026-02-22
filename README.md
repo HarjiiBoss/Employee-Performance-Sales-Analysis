@@ -2,15 +2,27 @@
 
 ## Executive Summary
 
-This project evaluates employee workload distribution, customer relationship coverage, and supplier geographic concentration within the Northwind wholesale distribution environment.
-
-The objective was to identify:
-- Workload imbalance creating operational and retention risk
-- Inactive employee records distorting performance metrics
-- Link between order volume and customer retention
-- Supply chain concentration risk from geographic clustering
+This analysis reveals significant workload concentration, retention dependency on high-performing employees, and geographic supplier clustering that may expose the business to operational and supply chain risk.
 
 Using structured SQL analysis, the project surfaces operational inefficiencies and strategic vulnerabilities rather than raw performance numbers.
+
+---
+
+## Performance Snapshot
+- Top 3 employees handle 52% of total orders
+- 6.7x workload gap between highest and lowest active employees
+- 42% of customers managed by a single employee
+- 82% of supplier co-location concentrated in USA & Europe
+
+---
+
+## Objective
+
+The analysis was designed to determine:
+- Whether workload imbalance creates operational or retention risk
+- Whether inactive employee records distort performance reporting
+- The relationship between order volume and customer retention
+- Whether supplier geography introduces concentration risk
 
 ---
 
@@ -77,7 +89,7 @@ Query outputs were interpreted to derive operational meaning beyond headcount an
 
 ---
 
-## Technical Appendix
+## Methodology & Tools
 
 ### 🛠️ Technologies Used
 - SQL (MySQL syntax)
