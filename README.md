@@ -92,7 +92,7 @@ Query outputs were interpreted to derive operational meaning beyond headcount an
 
 ## Methodology & Tools
 
-### 🛠️ Technologies Used
+### Technologies Used
 - SQL (MySQL syntax)
 - Northwind Database (W3Schools)
 - TablePlus
@@ -100,7 +100,7 @@ Query outputs were interpreted to derive operational meaning beyond headcount an
 
 ---
 
-### 🛠️ SQL Skills Demonstrated
+### SQL Skills Demonstrated
 - INNER JOIN across multiple tables
 - LEFT JOIN for inactive record detection
 - Self-join for geographic pair matching
