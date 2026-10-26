@@ -22,8 +22,8 @@ ORDER by
 
 /* 
 INSIGHT:
-The query returns 196 orders across roughly seven months (July 1996 to February 1997). Nearly half the customers placed more than one order, 
-and a few customers (like Ernst Handel with nine orders) contribute significantly to overall volume.
+The query returns 196 orders from 4 July 1996 to 12 February 1997. 52 of the 74 customers (70%) placed more than one order, 
+and a few customers (like Ernst Handel with ten orders) contribute significantly to overall volume.
 
 This consolidated view also confirms earlier patterns: Margaret processed 40 orders across 31 customers, while Anne handled only six. 
 It’s a useful snapshot for understanding both customer loyalty and employee performance.

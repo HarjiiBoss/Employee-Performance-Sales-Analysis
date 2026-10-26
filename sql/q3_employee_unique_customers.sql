@@ -22,16 +22,15 @@ ORDER BY COUNT(DISTINCT Customers.CustomerID) DESC;
 
 /* 
 INSIGHT:
-Margaret Peacock again stands out, serving the highest number of unique customers (31 out of 74). She also shows strong customer loyalty indicators, with 9 repeat orders.
+Margaret Peacock again stands out, serving the highest number of unique customers (31 out of 74). Her 40 orders include 9 to customers she had already served.
 
 Anne Dodsworth has zero repeat customers, which might mean she’s new or still building her customer management skills.
 
-A pattern emerges among the top performers: higher order volume tends to align with higher repeat-customer activity.
+Higher order volume tends to align with more repeat orders, partly by arithmetic: more orders leave more room for repeats. Retention itself was not measured.
 
 
 RECOMMENDATION:
 	•	Use top employees like Margaret and Janet as internal case studies for customer-relationship best practices.
 	•	Pair new or low-retention employees (like Anne) with high performers for coaching.
-	•	Consider formalizing the behaviors that drive Margaret’s strong retention into a training guide.
 	•	Run a follow-up analysis to determine whether Anne’s results are due to limited tenure or skill gaps.
 */
