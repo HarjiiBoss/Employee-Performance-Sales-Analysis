@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Northwind — Employee Performance & Sales Analysis</title>
+  <title>Taofeek Salami — Northwind Employee Performance & Sales Analysis</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -432,7 +432,7 @@
     <span class="badge badge-complete">Complete</span>
   </div>
   <h1>Employee Performance<br/><span>&amp; Sales</span><br/>Analysis</h1>
-  <p class="hero-desc">A business-focused SQL analysis evaluating operational workload imbalance, employee-driven retention risk, and supplier geographic concentration within a wholesale distribution environment.</p>
+  <p class="hero-desc">A business-focused SQL analysis evaluating operational workload imbalance, customer coverage per employee, and supplier geographic concentration within a wholesale distribution environment.</p>
   <div class="hero-meta">
     <div class="meta-item">
       <span class="meta-label">Queries</span>
@@ -452,7 +452,7 @@
     </div>
     <div class="meta-item">
       <span class="meta-label">Author</span>
-      <span class="meta-value">HarjiiBoss</span>
+      <span class="meta-value">Taofeek Salami</span>
     </div>
   </div>
   <div class="hero-links">
@@ -473,7 +473,7 @@
       <div class="stat"><div class="stat-number">40</div><div class="stat-label">Orders by top employee</div></div>
       <div class="stat"><div class="stat-number">1</div><div class="stat-label">Inactive employee found</div></div>
       <div class="stat"><div class="stat-number">17</div><div class="stat-label">Co-located supplier pairs</div></div>
-      <div class="stat"><div class="stat-number">82%</div><div class="stat-label">Suppliers in US & Europe</div></div>
+      <div class="stat"><div class="stat-number">82%</div><div class="stat-label">Same-country supplier pairs in US & Europe</div></div>
     </div>
   </section>
 
@@ -489,7 +489,7 @@
         <div class="finding-title">Employee Order Processing Volume</div>
         <div class="finding-section">
           <div class="finding-section-label">Finding</div>
-          <div class="finding-text"><strong>Margaret Peacock processed 40 orders</strong> (~20% of total). Anne Dodsworth handled only 6. The top 3 employees processed 102 of 196 total orders.</div>
+          <div class="finding-text"><strong>Margaret Peacock processed 40 orders</strong> (~20% of total). Anne Dodsworth handled only 6. The top 3 employees processed 100 of 196 total orders (51%).</div>
         </div>
         <div class="finding-section">
           <div class="finding-section-label">Insight</div>
@@ -519,7 +519,7 @@
       </div>
 
       <div class="finding-card">
-        <div class="finding-number">Q3 — RETENTION</div>
+        <div class="finding-number">Q3 — COVERAGE</div>
         <div class="finding-title">Customer Relationship Breadth</div>
         <div class="finding-section">
           <div class="finding-section-label">Finding</div>
@@ -527,11 +527,11 @@
         </div>
         <div class="finding-section">
           <div class="finding-section-label">Insight</div>
-          <div class="finding-text">Higher order volume correlates with stronger customer retention — likely driven by experience, trust, and customer communication skills.</div>
+          <div class="finding-text">Employees with more orders also served more customers and more repeat orders, which partly follows from order volume itself. Customer retention was not measured, so the data does not show why.</div>
         </div>
         <div class="finding-section">
           <div class="finding-section-label">Recommendation</div>
-          <div class="finding-text">Use top performers as internal benchmarks. Introduce shadowing and mentoring programs. Formalise high-performer behaviours into training guidelines.</div>
+          <div class="finding-text">Measure customer retention per employee over time before treating high-volume employees as benchmarks for training.</div>
         </div>
       </div>
 
@@ -548,7 +548,7 @@
         </div>
         <div class="finding-section">
           <div class="finding-section-label">Recommendation</div>
-          <div class="finding-text">Pursue geographic diversification. Target 20–25% of supplier relationships from Asia-Pacific within 18 months. Identify backup suppliers for critical categories.</div>
+          <div class="finding-text">Assess whether adding suppliers outside the US and Europe would reduce regional concentration. Identify backup suppliers for critical categories.</div>
         </div>
       </div>
 
@@ -557,11 +557,11 @@
         <div class="finding-title">Operational Order Monitoring</div>
         <div class="finding-section">
           <div class="finding-section-label">Finding</div>
-          <div class="finding-text"><strong>196 orders across 7 months</strong> (July 1996 – Feb 1997). Ernst Handel recorded the highest customer order count at 9. Nearly half of customers placed multiple orders.</div>
+          <div class="finding-text"><strong>196 orders from 4 July 1996 to 12 February 1997</strong>. Ernst Handel recorded the highest customer order count at 10. 52 of the 74 customers (70%) placed more than one order.</div>
         </div>
         <div class="finding-section">
           <div class="finding-section-label">Insight</div>
-          <div class="finding-text">Confirms patterns of customer loyalty and over-dependency on a small group of high-performing employees for order volume.</div>
+          <div class="finding-text">Most customers ordered more than once in the period, and just over half of all orders went through three employees.</div>
         </div>
         <div class="finding-section">
           <div class="finding-section-label">Recommendation</div>
@@ -706,17 +706,17 @@
       <div class="theme-card">
         <div class="theme-number">01</div>
         <div class="finding-section-label" style="margin-bottom:0.5rem;">Workload Imbalance</div>
-        <div class="theme-text">A small group of employees processes the majority of orders. Redistribution and mentorship are needed to reduce burnout risk and unlock underutilised capacity.</div>
+        <div class="theme-text">Three employees processed just over half of all orders. The data does not show hours or order complexity, so the cause of the gap needs checking before workloads are changed.</div>
       </div>
       <div class="theme-card">
         <div class="theme-number">02</div>
-        <div class="finding-section-label" style="margin-bottom:0.5rem;">Performance & Retention Link</div>
-        <div class="theme-text">Higher order volume strongly correlates with broader customer coverage and repeat orders. Top performer behaviours should be formalised into training and onboarding.</div>
+        <div class="finding-section-label" style="margin-bottom:0.5rem;">Volume & Coverage Link</div>
+        <div class="theme-text">Employees with more orders served more customers and more repeat orders. Retention per employee was not measured, so it is a candidate for follow-up analysis.</div>
       </div>
       <div class="theme-card">
         <div class="theme-number">03</div>
         <div class="finding-section-label" style="margin-bottom:0.5rem;">Supply Chain Concentration Risk</div>
-        <div class="theme-text">Over 82% of co-located supplier pairs sit in the US and Europe. Geographic diversification toward Asia-Pacific is critical for long-term supply chain resilience.</div>
+        <div class="theme-text">Over 82% of co-located supplier pairs sit in the US and Europe. Geographic diversification is worth assessing for supply chain resilience.</div>
       </div>
     </div>
   </section>
@@ -724,7 +724,7 @@
 </main>
 
 <footer>
-  <span class="footer-name">HarjiiBoss</span>
+  <span class="footer-name">Taofeek Salami</span>
   <span class="footer-note">Northwind DB — Employee Performance & Sales Analysis · MySQL · 2024</span>
 </footer>
 

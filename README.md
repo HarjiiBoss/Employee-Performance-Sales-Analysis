@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-This analysis reveals significant workload concentration, retention dependency on high-performing employees, and geographic supplier clustering that may expose the business to operational and supply chain risk.
+This analysis reveals significant workload concentration, customer coverage concentrated in a few employees, and geographic supplier clustering that may expose the business to operational and supply chain risk.
 
 Using structured SQL analysis, the project surfaces operational inefficiencies and strategic vulnerabilities rather than raw performance numbers.
 
@@ -10,19 +10,19 @@ Using structured SQL analysis, the project surfaces operational inefficiencies a
 
 ## Performance Snapshot
 
-- Top 3 employees handle 52% of total orders
+- Top 3 employees handle 51% of total orders (100 of 196)
 - 6.7x workload gap between highest and lowest active employees
-- 42% of customers managed by a single employee
-- 82% of supplier co-location concentrated in USA & Europe
+- One employee served 42% of customers (31 of 74)
+- 82% of same-country supplier pairs are in the USA & Europe
 
 ---
 
 ## Objective
 
 The analysis was designed to determine:
-- Whether workload imbalance creates operational or retention risk
+- Whether workload is evenly distributed across the team
 - Whether inactive employee records distort performance reporting
-- The relationship between order volume and customer retention
+- The relationship between order volume and customer coverage
 - Whether supplier geography introduces concentration risk
 
 ---
@@ -31,7 +31,7 @@ The analysis was designed to determine:
 
 The Northwind dataset simulates a wholesale distribution company where employees manage customer orders and supplier relationships across multiple regions.
 
-For a business operating in this environment, understanding how workload is distributed, which employees drive customer retention, and where supply chain dependencies are concentrated is critical for sustainable operations.
+For a business operating in this environment, understanding how workload is distributed, how customers are spread across employees, and where supply chain dependencies are concentrated is critical for sustainable operations.
 
 This analysis evaluates performance imbalance, data quality issues affecting reporting accuracy, and geographic risks that could disrupt supply continuity.
 
@@ -41,7 +41,7 @@ This analysis evaluates performance imbalance, data quality issues affecting rep
 
 1. Is order processing workload distributed evenly across the team?
 2. Are there employee records distorting performance metrics?
-3. Which employees drive the strongest customer retention?
+3. Which employees serve the most customers?
 4. Does supplier geography create concentration risk?
 5. What does consolidated order data reveal about employee and customer dependency?
 
@@ -64,18 +64,18 @@ Query outputs were interpreted to derive operational meaning beyond headcount an
 
 ## Key Findings
 
-- Margaret Peacock processed 40 orders — approximately 20% of total volume — while Anne Dodsworth handled only 6. The top three employees processed 102 of 196 total orders, indicating heavy workload concentration.
+- Margaret Peacock processed 40 orders — approximately 20% of total volume — while Anne Dodsworth handled only 6. The top three employees processed 100 of 196 total orders (51%).
 - One employee, Adam West (EmployeeID 10), has no recorded orders. His employee notes and age profile suggest an inactive or non-operational role, making his inclusion in performance reporting misleading.
-- Employees with higher order volumes also served significantly more unique customers. Margaret covered 31 of 74 customers, while Anne served 6 with no repeat orders — suggesting retention performance tracks closely with workload and experience.
-- 17 of 29 supplier pairs are co-located within the same country. The USA accounts for 6 pairs (35.3%) and Europe accounts for 8 pairs (47.1%), meaning over 82% of co-located supplier relationships sit within two regions.
+- Employees with higher order volumes also served significantly more unique customers. Margaret covered 31 of 74 customers, while Anne served 6 with no repeat orders. Retention per employee was not measured.
+- The 29 suppliers form 17 same-country pairs. The USA accounts for 6 pairs (35.3%) and Europe accounts for 8 pairs (47.1%), meaning over 82% of co-located supplier relationships sit within two regions.
 
 ---
 
 ## Business Implications
 
-- A 6.7x workload gap between the highest and lowest performing employees indicates task distribution is not systematic — this creates burnout risk for top performers and underutilisation of lower-volume staff.
+- A 6.7x workload gap between the highest and lowest performing employees may indicate uneven task distribution; the data does not show hours worked or order complexity, so the cause needs checking.
 - Adam West's unfiltered inclusion in team-wide KPIs inflates headcount and distorts average performance metrics, making the team appear less efficient than it is.
-- The correlation between order volume and customer retention suggests retention is driven by individual employee relationships, not company-wide process — making the business vulnerable if high performers leave.
+- Customer coverage is concentrated in a few high-volume employees, so the business could be exposed if they leave. Whether they also retain customers better was not measured.
 - With 82% of co-located supplier relationships concentrated in the USA and Europe, any regional disruption — trade policy changes, logistics delays, or political instability — could affect the majority of the supplier base simultaneously.
 
 ---
@@ -85,7 +85,7 @@ Query outputs were interpreted to derive operational meaning beyond headcount an
 1. Review the order assignment process to determine whether workload imbalance is structural or incidental before redistributing tasks.
 2. Confirm Adam West's employment status with HR and archive or update his record to prevent it from affecting operational reporting.
 3. Document the customer relationship behaviours of top performers and use them as the foundation for team-wide training and onboarding standards.
-4. Target 20–25% of future supplier relationships from Asia-Pacific markets within 18 months to reduce regional concentration risk.
+4. Assess whether adding suppliers outside the USA and Europe would reduce regional concentration risk.
 5. Integrate the consolidated order query into routine monthly reporting for Sales and Customer Success to track retention trends and flag workload imbalance early.
 
 ---
