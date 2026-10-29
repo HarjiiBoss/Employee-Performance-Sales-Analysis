@@ -18,8 +18,8 @@ ORDER BY Employees.EmployeeID;
 
 /* 
 INSIGHT: 
-One employee — Adam West (EmployeeID 10) — has no recorded orders. He’s also much older than the rest of the team and his employee notes (“An old chum”) do not clarify his role. 
-This hints that he may be inactive, retired, or assigned to a function unrelated to order processing.
+One employee — Adam West (EmployeeID 10) — has no recorded orders. His employee notes (“An old chum”) do not give his role,
+and the data does not say whether he is inactive. Counting him lowers average orders per employee from 21.8 to 19.6.
 
 
 RECOMMENDATION: 

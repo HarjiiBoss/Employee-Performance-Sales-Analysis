@@ -1,0 +1,20 @@
+# .figures-allow — figures checked by hand that tools/check_figures.py cannot find in the outputs.
+# One figure per line, written as it appears in the text, then '#' and how it was derived.
+# List a figure only after checking the calculation. A typed or drifted figure is fixed, not listed.
+
+196      # query1: orders per employee 40 + 31 + 29 + 27 + 20 + 18 + 14 + 11 + 6 = 196 (query5 also lists 196 orders)
+100      # query1: top three employees 40 + 31 + 29
+51%      # query1: 100 / 196 = 51.0%
+20.4%    # query1: Margaret Peacock 40 / 196
+6.7x     # query1: 40 / 6 = 6.67
+6.7×     # same figure, written with the multiplication sign
+21.8     # query1: 196 orders / 9 employees with orders
+19.6     # query1 + query2: 196 orders / 10 employee records
+41.9%    # query3: 31 customers / 74 customers who ordered (74 counted from the distinct customers in query5)
+42%      # same figure, rounded
+70%      # query5: 52 of the 74 customers have more than one order (counted from the query5 list)
+35.3%    # query4: USA 6 of 17 pairs
+47.1%    # query4: Europe 8 of 17 pairs (France 3, Germany 3, Italy 1, UK 1)
+82%      # query4: (6 + 8) / 17 = 82.4%
+11.8%    # query4: Japan 1 + Australia 1 = 2 of 17 pairs
+102      # old value, quoted in README Corrections only
